@@ -1,26 +1,24 @@
-<!-- app/Models/MedicalRecord.php -->
-
+<!-- app/Models/Appointment.php -->
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MedicalRecord extends Model
+class Appointment extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'record_id';
+    protected $primaryKey = 'appointment_id';
     public $timestamps = false;
 
     protected $fillable = [
         'patient_id',
         'doctor_id',
-        'diagnosis',
-        'treatment',
-        'prescription',
-        'notes',
-        'visit_date',
+        'appointment_date',
+        'appointment_time',
+        'status',
     ];
 
     public function doctor()
@@ -32,12 +30,5 @@ class MedicalRecord extends Model
     {
         return $this->belongsTo(Patient::class, 'patient_id', 'patient_id');
     }
-
-    public function prescriptions()
-    {
-        return $this->hasMany(Prescription::class, 'record_id', 'record_id');
-    }
 }
 
-
-        

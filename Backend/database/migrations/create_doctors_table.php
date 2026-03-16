@@ -1,11 +1,13 @@
-<!-- Migration for patients table -->
+<!-- 
+migration for doctors table
+ -->
 <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePatientsTable extends Migration
+class CreateDoctorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,17 +16,15 @@ class CreatePatientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('patients', function (Blueprint $table) {
-            $table->id('patient_id');
+        Schema::create('doctors', function (Blueprint $table) {
+            $table->id('doctor_id');
             $table->string('first_name', 50);
             $table->string('last_name', 50);
-            $table->enum('gender', ['male', 'female', 'other']);
-            $table->date('date_of_birth')->nullable();
+            $table->string('specialization', 100)->nullable();
             $table->string('phone', 15)->nullable();
             $table->string('email', 100)->nullable();
-            $table->text('address')->nullable();
-            $table->enum('blood_group', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])->nullable();
-            $table->timestamp('registered_at')->useCurrent();
+            $table->decimal('consultation_fee', 10, 2)->nullable();
+            $table->timestamp('joined_at')->useCurrent();
         });
     }
 
@@ -35,7 +35,8 @@ class CreatePatientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('doctors');
     }
 }
+
 

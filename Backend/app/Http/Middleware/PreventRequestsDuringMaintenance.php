@@ -1,13 +1,12 @@
-<!-- //app/Http/Middleware/Authenticate.php -->
+<!-- app/Http/Middleware/PreventRequestsDuringMaintenance.php -->
 
 <?php
-
 namespace App\Http\Middleware;
-
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-class Authenticate
+use Symfony\Component\HttpFoundation\Response;
+
+class PreventRequestsDuringMaintenance
 {
     /**
      * Handle an incoming request.
@@ -18,12 +17,11 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please login to access this page.');
+        if (app()->isDownForMaintenance()) {
+            return response()->view('errors.503', [], Response::HTTP_SERVICE_UNAVAILABLE);
         }
 
         return $next($request);
     }
 }
-
 

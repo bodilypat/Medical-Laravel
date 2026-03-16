@@ -1,13 +1,13 @@
-<!-- //app/Http/Middleware/Authenticate.php -->
+<!-- app/Http/Middleware/RedirectIfAuthenticated.php -->
 
 <?php
 
 namespace App\Http\Middleware;
-
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-class Authenticate
+class RedirectIfAuthenticated
+
 {
     /**
      * Handle an incoming request.
@@ -18,12 +18,11 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please login to access this page.');
+        if (Auth::check()) {
+            return redirect()->route('dashboard')->with('info', 'You are already logged in.');
         }
 
         return $next($request);
     }
 }
-
 

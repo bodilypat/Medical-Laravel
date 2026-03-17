@@ -1,11 +1,10 @@
-<!-- Laravel provides this by default -->
+<!-- app/Http/Middleware/LogRequests.php  # Optional logging -->
 <?php
-
 namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class Authenticate
+class LogRequests
 {
     /**
      * Handle an incoming request.
@@ -16,9 +15,12 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+        // Log the request details (method, URL, timestamp)
+        \Log::info('Incoming Request', [
+            'method' => $request->getMethod(),
+            'url' => $request->fullUrl(),
+            'timestamp' => now()->toDateTimeString(),
+        ]);
 
         return $next($request);
     }
